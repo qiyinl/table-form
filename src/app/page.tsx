@@ -1,66 +1,50 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+'use client';
+
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+import Link from 'next/link';
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <Box sx={{ mt: { xs: 4, md: 8 } }}>
+      <Typography variant="h1" component="h1" gutterBottom sx={{ fontSize: { xs: '3.5rem', sm: '4.5rem', md: '5.5rem' }, color: 'primary.main', lineHeight: 1.1, mb: 3, wordBreak: 'break-word' }}>
+        DATA FORM.
+      </Typography>
+      <Typography variant="h4" component="p" sx={{ mb: { xs: 4, md: 6 }, fontWeight: 300, maxWidth: 600, fontSize: { xs: '1.25rem', sm: '1.75rem', md: '2.125rem' } }}>
+        A lightweight modern application to seamlessly capture and display structured data with a nostalgic edge.
+      </Typography>
+      
+      <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: { xs: 3, md: 4 } }}>
+        <Paper elevation={1} sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <Typography variant="h3" gutterBottom>
+            Record Entry
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4, flexGrow: 1 }}>
+            Submit new records through our dynamic form interface. Capture names, fields of study, age, and multiple activities.
+          </Typography>
+          <Link href="/form" passHref legacyBehavior>
+            <Button variant="contained" color="primary" size="large" sx={{ py: 1.5, px: { xs: 3, md: 4 }, width: { xs: '100%', sm: 'auto' } }}>
+              ENTER DATA
+            </Button>
+          </Link>
+        </Paper>
+        
+        <Paper elevation={1} sx={{ p: 4, height: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+          <Typography variant="h3" gutterBottom>
+            View Data
+          </Typography>
+          <Typography variant="body1" sx={{ mb: 4, flexGrow: 1 }}>
+            Inspect and manage submissions in a clean, legible table format. Effortlessly remove outdated operations.
+          </Typography>
+          <Link href="/table" passHref legacyBehavior>
+            <Button variant="contained" color="secondary" size="large" sx={{ py: 1.5, px: { xs: 3, md: 4 }, width: { xs: '100%', sm: 'auto' } }}>
+              ACCESS TABLE
+            </Button>
+          </Link>
+        </Paper>
+      </Box>
+    </Box>
   );
 }
