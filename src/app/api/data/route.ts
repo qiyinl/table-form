@@ -20,9 +20,10 @@ export async function POST(request: Request) {
   try {
     await insertRecord(newRecord);
     return NextResponse.json({ success: true, record: newRecord });
-  } catch (error) {
-    console.error('Failed to insert record:', error);
-    return NextResponse.json({ error: 'Failed to insert record' }, { status: 500 });
+  } catch (error: any) {
+    console.error('Failed to insert record! Error object:', error);
+    console.error('Error message:', error?.message);
+    return NextResponse.json({ error: 'Failed to insert record: ' + (error?.message || 'Unknown error') }, { status: 500 });
   }
 }
 
