@@ -1,8 +1,8 @@
 import fs from 'fs';
-import os from 'os';
 import path from 'path';
 
-const dataFilePath = path.join(os.tmpdir(), 'table-form-data.json');
+const dataDir = path.join(process.cwd(), 'data');
+const dataFilePath = path.join(dataDir, 'data.json');
 
 export interface RecordItem {
   id: string;
@@ -25,5 +25,8 @@ export function getData(): RecordItem[] {
 }
 
 export function saveData(data: RecordItem[]) {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
   fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
 }
