@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function TablePage() {
   // Fetch data on the server during initialization
-  const data = getData();
+  const data = await getData();
 
   return (
     <Box sx={{ mt: { xs: 2, md: 4 } }}>

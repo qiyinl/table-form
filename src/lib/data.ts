@@ -1,8 +1,4 @@
-import fs from 'fs';
-import path from 'path';
-
-const dataDir = path.join(process.cwd(), 'data');
-const dataFilePath = path.join(dataDir, 'data.json');
+import { query } from './db';
 
 export interface RecordItem {
   id: string;
@@ -12,21 +8,33 @@ export interface RecordItem {
   Actividades: string[];
 }
 
-export function getData(): RecordItem[] {
-  if (!fs.existsSync(dataFilePath)) {
-    return [];
-  }
-  const fileContent = fs.readFileSync(dataFilePath, 'utf-8');
+export async function getData(): Promise<RecordItem[]> {
   try {
-    return JSON.parse(fileContent) as RecordItem[];
-  } catch (e) {
+    const res = await query('SELECT * FROM records ORDER BY "id" DESC');
+    return res.rows.map(row => ({
+      id: row.id,
+      Nombre: row.Nombre,
+      Estudio: row.Estudio,
+      Edad: row.Edad,
+      Actividades: typeof row.Actividades === 'string' ? JSON.parse(row.Actividades) : row.Actividades,
+    }));
+  } catch (err) {
+    console.error('Error fetching records Postgres:', err);
     return [];
   }
 }
 
-export function saveData(data: RecordItem[]) {
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2));
+export async function insertRecord(record: RecordItem) {
+  const text = `
+    INSERT INTO records ("id", "Nombre", "Estudio", "Edad", "Actividades")
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *;
+  `;
+  const values = [record.id, record.Nombre, record.Estudio, record.Edad, JSON.stringify(record.Actividades)];
+  await query(text, values);
+}
+
+export async function deleteRecord(id: string) {
+  const text = `DELETE FROM records WHERE "id" = $1`;
+  await query(text, [id]);
 }
